@@ -38,7 +38,9 @@
       <md-app-content>
         <div class="home">
           <h1>Episodes</h1>
-          <SingleEpisode v-for="(episode,i) in episodes" :key="i" :episode="episode"></SingleEpisode>
+          <div class="elevation">
+            <SingleEpisode v-for="(episode,i) in episodes" :key="i" :episode="episode"></SingleEpisode>
+          </div>
         </div>
       </md-app-content>
     </md-app>
@@ -80,5 +82,12 @@ export default {
 .md-drawer {
   width: 230px;
   max-width: calc(100vw - 125px);
+}
+
+.elevation {
+  padding: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 </style>
