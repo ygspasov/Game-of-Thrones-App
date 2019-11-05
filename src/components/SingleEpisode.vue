@@ -1,15 +1,39 @@
 <template>
-  <md-content class="md-elevation-3">
-    <img :src="episode.image.medium" alt />
+  <md-card class="md-accent" md-with-hover>
+    <md-card-media>
+      <img :src="episode.image.medium" alt />
+    </md-card-media>
 
-    <h4>{{episode.name}}</h4>
-    <span>Season: {{episode.season}}</span> |
-    <span>Episode: {{episode.number}}</span>
-    <p>Date: {{episode.airdate | formatDate}}</p>
-    <p>Time: {{episode.airtime}}</p>
+    <md-card-header>
+      <div class="md-title">{{episode.name}}</div>
+      <div class="md-subhead">
+        Season: {{episode.season}} |
+        Episode: {{episode.number}}
+      </div>
+    </md-card-header>
 
-    <p>Summary: {{episode.airtime}}</p>
-  </md-content>
+    <md-card-content>
+      <p>Date: {{episode.airdate | formatDate}}</p>
+      <p>Time: {{episode.airtime}}</p>
+    </md-card-content>
+
+    <md-card-expand>
+      <md-card-actions md-alignment="space-between">
+        <div>
+          <md-button>Edit</md-button>
+        </div>
+
+        <md-card-expand-trigger>
+          <md-button>Learn more</md-button>
+        </md-card-expand-trigger>
+      </md-card-actions>
+      <md-card-expand-content>
+        <md-card-content>
+          <p>{{episode.summary | striphtml}}</p>
+        </md-card-content>
+      </md-card-expand-content>
+    </md-card-expand>
+  </md-card>
 </template>
 
 <script>
@@ -21,9 +45,10 @@ export default {
 </script>
 
 <style scoped>
-.md-content {
-  width: 200px;
-  margin: 24px;
-  padding: 10px;
+.md-content,
+.md-card {
+  width: 250px;
+  margin: 5px;
+  padding: 5px;
 }
 </style>
