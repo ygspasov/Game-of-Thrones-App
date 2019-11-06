@@ -1,5 +1,5 @@
 <template>
-  <md-card class="md-accent" md-with-hover>
+  <md-card class="md-accent" md-with-hover v-scroll-reveal.reset="{ delay: 550 }">
     <md-card-media>
       <img :src="episode.image.medium" alt />
     </md-card-media>
