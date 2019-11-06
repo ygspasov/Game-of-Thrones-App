@@ -15,33 +15,17 @@
         <md-list>
           <md-list-item>
             <md-icon>move_to_inbox</md-icon>
-            <span class="md-list-item-text">Inbox</span>
+            <router-link to="/" tag="a" class="md-list-item-text">Home</router-link>
           </md-list-item>
-
           <md-list-item>
-            <md-icon>send</md-icon>
-            <span class="md-list-item-text">Sent Mail</span>
-          </md-list-item>
-
-          <md-list-item>
-            <md-icon>delete</md-icon>
-            <span class="md-list-item-text">Trash</span>
-          </md-list-item>
-
-          <md-list-item>
-            <md-icon>error</md-icon>
-            <span class="md-list-item-text">Spam</span>
+            <md-icon>move_to_inbox</md-icon>
+            <router-link to="/addepisode" tag="a" class="md-list-item-text">Add Episode</router-link>
           </md-list-item>
         </md-list>
       </md-app-drawer>
 
       <md-app-content>
-        <div class="home">
-          <h1>Episodes</h1>
-          <div class="elevation">
-            <SingleEpisode v-for="(episode,i) in episodes" :key="i" :episode="episode"></SingleEpisode>
-          </div>
-        </div>
+        <router-view></router-view>
       </md-app-content>
     </md-app>
   </div>
@@ -49,27 +33,12 @@
 
 
 <script>
-import SingleEpisode from "./SingleEpisode";
-const axios = require("axios");
 export default {
   name: "home",
   data() {
     return {
-      episodes: [],
       menuVisible: false
     };
-  },
-  components: { SingleEpisode },
-  created() {
-    axios
-      .get("http://localhost:3000/episodes")
-      .then(response => {
-        console.log(response.data);
-        this.episodes = response.data;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
   }
 };
 </script>
@@ -82,12 +51,5 @@ export default {
 .md-drawer {
   width: 230px;
   max-width: calc(100vw - 125px);
-}
-
-.elevation {
-  padding: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 </style>
