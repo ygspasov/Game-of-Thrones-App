@@ -1532,27 +1532,6 @@
           "href": "http://api.tvmaze.com/episodes/1623968"
         }
       }
-    },
-    {
-      "id": 1615810,
-      "url": "http://www.tvmaze.com/episodes/1623968/game-of-thrones-8x06-the-iron-throne",
-      "name": "war",
-      "season": 8,
-      "number": 6,
-      "airdate": "2019-05-19",
-      "airtime": "21:00",
-      "airstamp": "2019-05-20T01:00:00+00:00",
-      "runtime": 80,
-      "image": {
-        "medium": "http://static.tvmaze.com/uploads/images/medium_landscape/198/495648.jpg",
-        "original": "http://static.tvmaze.com/uploads/images/original_untouched/198/495648.jpg"
-      },
-      "summary": "<p>In the aftermath of the devastating attack on King's Landing, Daenerys must face the survivors.</p>",
-      "_links": {
-        "self": {
-          "href": "http://api.tvmaze.com/episodes/1623968"
-        }
-      }
     }
   ]
 }

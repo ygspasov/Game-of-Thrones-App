@@ -1,6 +1,11 @@
 <template>
   <div id="addForm">
     <md-field>
+      <md-icon>add_a_photo</md-icon>
+      <label>Image</label>
+      <md-input v-model="image"></md-input>
+    </md-field>
+    <md-field>
       <md-icon>title</md-icon>
       <label>Title</label>
       <md-input v-model="title"></md-input>
@@ -22,7 +27,6 @@
       <label>Date</label>
       <md-input v-model="date" placeholder="mm/dd/yyyy"></md-input>
     </md-field>
-    <span>{{date | formatDate}}</span>
 
     <md-field>
       <md-icon>timer</md-icon>
@@ -48,6 +52,7 @@ export default {
   name: "addepisode",
   data() {
     return {
+      image: null,
       title: null,
       season: null,
       episode: null,
@@ -62,28 +67,15 @@ export default {
     createEpisode: function() {
       return {
         id: random.int(0, 9999999),
-        url:
-          "http://www.tvmaze.com/episodes/1623968/game-of-thrones-8x06-the-iron-throne",
-        name: this.title,
-        season: 8,
-        number: 6,
-        airdate: "2019-05-19",
-        airtime: "21:00",
-        airstamp: "2019-05-20T01:00:00+00:00",
-        runtime: 80,
         image: {
-          medium:
-            "http://static.tvmaze.com/uploads/images/medium_landscape/198/495648.jpg",
-          original:
-            "http://static.tvmaze.com/uploads/images/original_untouched/198/495648.jpg"
+          medium: this.image
         },
-        summary:
-          "<p>In the aftermath of the devastating attack on King's Landing, Daenerys must face the survivors.</p>",
-        _links: {
-          self: {
-            href: "http://api.tvmaze.com/episodes/1623968"
-          }
-        }
+        name: this.title,
+        season: this.season,
+        number: this.episode,
+        airdate: this.date,
+        airtime: this.time,
+        summary: this.learnmore
       };
     },
     postNewEpisode: function() {

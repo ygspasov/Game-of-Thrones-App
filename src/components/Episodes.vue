@@ -31,11 +31,15 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style>
 .elevation {
   padding: 16px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+.home .md-card-media img {
+  width: 100%;
+  height: 134px;
 }
 </style>
