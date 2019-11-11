@@ -20,12 +20,8 @@
 
       <md-card-expand>
         <md-card-actions md-alignment="space-between">
-          <div>
-            <md-button @click="showHide=!showHide">Edit</md-button>
-          </div>
-
           <md-card-expand-trigger>
-            <md-button>Learn more</md-button>
+            <md-button class="more">Learn more</md-button>
           </md-card-expand-trigger>
         </md-card-actions>
         <md-card-expand-content>
@@ -34,30 +30,34 @@
           </md-card-content>
         </md-card-expand-content>
       </md-card-expand>
+      <md-button @click="showHide=!showHide">Edit</md-button>
+      <md-button @click="deleteEpisode">Del</md-button>
     </md-card>
 
     <!-- Edit form -->
     <md-card id="edit" class="md-accent" md-with-hover v-if="showHide">
       <h3>Edit image:</h3>
-      <input type="text" :placeholder="episode.image.medium" />
+      <input type="text" :placeholder="episode.image.medium" v-model="updatedEpisode.image.medium" />
       <h3>Edit episode name:</h3>
-      <input type="text" :placeholder="episode.name" />
+      <input type="text" :placeholder="episode.name" v-model="updatedEpisode.name" />
       <h3>Edit season number:</h3>
-      <input type="text" :placeholder="episode.season" />
+      <input type="text" :placeholder="episode.season" v-model="updatedEpisode.season" />
       <h3>Edit episode number:</h3>
-      <input type="text" :placeholder="episode.number" />
+      <input type="text" :placeholder="episode.number" v-model="updatedEpisode.number" />
       <h3>Edit airdate:</h3>
-      <input type="text" :placeholder="episode.airdate" />
+      <input type="text" :placeholder="episode.airdate" v-model="updatedEpisode.airdate" />
       <h3>Edit airtime:</h3>
-      <input type="text" :placeholder="episode.airtime" />
+      <input type="text" :placeholder="episode.airtime" v-model="updatedEpisode.airtime" />
       <h3>Edit learn more</h3>
-      <input type="text" :placeholder="episode.summary | striphtml" />
-      <md-button>Update</md-button>
+      <textarea :placeholder="episode.summary | striphtml" v-model="updatedEpisode.summary"></textarea>
+      <md-button @click="updateEpisode">Update</md-button>
+      {{update}}
     </md-card>
   </div>
 </template>
 
 <script>
+const axios = require("axios");
 export default {
   props: {
     episode: { type: Object, required: true }
@@ -65,10 +65,39 @@ export default {
   data() {
     return {
       showHide: false,
-      image: this.episode.image.medium
+      update: true,
+      updatedEpisode: {
+        id: this.episode.id,
+        name: this.episode.name,
+        season: this.episode.season,
+        number: this.episode.number,
+        airdate: this.episode.airdate,
+        airtime: this.episode.airtime,
+        image: { medium: this.episode.image.medium },
+        summary: this.episode.summary
+      }
     };
   },
-  methods: {}
+  methods: {
+    updateEpisode: function() {
+      let id = this.episode.id;
+      let url = `http://localhost:3000/episodes/${id}`;
+      axios
+        .patch(url, this.updatedEpisode)
+        .then(response => {
+          console.log(response);
+          this.update = !this.update;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    deleteEpisode: function() {
+      let id = this.episode.id;
+      let url = `http://localhost:3000/episodes/${id}`;
+      axios.delete(url).then(() => console.log("deleted " + id));
+    }
+  }
 };
 </script>
 
@@ -83,6 +112,11 @@ export default {
   width: 100%;
   height: 30px;
   border: none;
+  text-align: center;
+}
+#edit textarea {
+  border: none;
+  text-align: center;
 }
 .md-card .md-title {
   font-size: 24px;
@@ -92,5 +126,8 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 200px;
+}
+#display .md-button.more {
+  margin: 0 auto;
 }
 </style>
