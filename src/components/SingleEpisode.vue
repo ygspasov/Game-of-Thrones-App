@@ -1,21 +1,21 @@
 <template>
-  <div>
+  <div v-if="mutableEpisode">
     <md-card id="display" class="md-accent" md-with-hover v-scroll-reveal.reset="{ delay: 250 }">
       <md-card-media>
-        <img :src="episode.image.medium" alt />
+        <img :src="mutableEpisode.image.medium" alt />
       </md-card-media>
 
       <md-card-header>
-        <div class="md-title">{{episode.name}}</div>
+        <div class="md-title">{{mutableEpisode.name}}</div>
         <div class="md-subhead">
-          Season: {{episode.season}} |
-          Episode: {{episode.number}}
+          Season: {{mutableEpisode.season}} |
+          Episode: {{mutableEpisode.number}}
         </div>
       </md-card-header>
 
       <md-card-content>
-        <p>Date: {{episode.airdate | formatDate}}</p>
-        <p>Time: {{episode.airtime}}</p>
+        <p>Date: {{mutableEpisode.airdate | formatDate}}</p>
+        <p>Time: {{mutableEpisode.airtime}}</p>
       </md-card-content>
 
       <md-card-expand>
@@ -26,7 +26,7 @@
         </md-card-actions>
         <md-card-expand-content>
           <md-card-content>
-            <p>{{episode.summary | striphtml}}</p>
+            <p>{{mutableEpisode.summary | striphtml}}</p>
           </md-card-content>
         </md-card-expand-content>
       </md-card-expand>
@@ -50,8 +50,7 @@
       <input type="text" :placeholder="episode.airtime" v-model="updatedEpisode.airtime" />
       <h3>Edit learn more</h3>
       <textarea :placeholder="episode.summary | striphtml" v-model="updatedEpisode.summary"></textarea>
-      <md-button @click="updateEpisode">Update</md-button>
-      {{update}}
+      <md-button @click.prevent="updateEpisode">Update</md-button>
     </md-card>
   </div>
 </template>
@@ -65,7 +64,6 @@ export default {
   data() {
     return {
       showHide: false,
-      update: true,
       updatedEpisode: {
         id: this.episode.id,
         name: this.episode.name,
@@ -75,7 +73,8 @@ export default {
         airtime: this.episode.airtime,
         image: { medium: this.episode.image.medium },
         summary: this.episode.summary
-      }
+      },
+      mutableEpisode: this.episode
     };
   },
   methods: {
@@ -85,8 +84,8 @@ export default {
       axios
         .patch(url, this.updatedEpisode)
         .then(response => {
-          console.log(response);
-          this.update = !this.update;
+          console.log(response.data);
+          this.mutableEpisode = response.data;
         })
         .catch(error => {
           console.log(error);
@@ -95,7 +94,9 @@ export default {
     deleteEpisode: function() {
       let id = this.episode.id;
       let url = `http://localhost:3000/episodes/${id}`;
-      axios.delete(url).then(() => console.log("deleted " + id));
+      axios.delete(url).then(() => {
+        this.mutableEpisode = null;
+      });
     }
   }
 };

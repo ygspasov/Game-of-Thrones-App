@@ -1,5 +1,6 @@
 <template>
   <div id="addForm">
+    <Navigation />
     <md-field>
       <md-icon>add_a_photo</md-icon>
       <label>Image</label>
@@ -40,12 +41,15 @@
       <md-textarea v-model="learnmore"></md-textarea>
     </md-field>
     <md-field>
-      <md-button class="md-primary md-raised" @click="postNewEpisode">Add episode</md-button>
+      <md-button class="md-primary md-raised" @click="postNewEpisode"
+        >Add episode</md-button
+      >
     </md-field>
   </div>
 </template>
 
 <script>
+import Navigation from "./Navigation";
 const random = require("random");
 const axios = require("axios");
 export default {
@@ -63,6 +67,7 @@ export default {
       newEpisode: null
     };
   },
+  components: { Navigation },
   methods: {
     createEpisode: function() {
       return {

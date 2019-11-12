@@ -1,13 +1,19 @@
 <template>
   <div class="home">
+    <Navigation />
     <h1>Episodes</h1>
     <div class="elevation">
-      <SingleEpisode v-for="(episode,i) in episodes" :key="i" :episode="episode"></SingleEpisode>
+      <SingleEpisode
+        v-for="(episode, i) in episodes"
+        :key="i"
+        :episode="episode"
+      ></SingleEpisode>
     </div>
   </div>
 </template>
 
 <script>
+import Navigation from "./Navigation";
 import SingleEpisode from "./SingleEpisode";
 const axios = require("axios");
 export default {
@@ -16,7 +22,7 @@ export default {
       episodes: []
     };
   },
-  components: { SingleEpisode },
+  components: { SingleEpisode, Navigation },
   created() {
     axios
       .get("http://localhost:3000/episodes")
