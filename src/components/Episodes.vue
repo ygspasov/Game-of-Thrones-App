@@ -1,6 +1,10 @@
 <template>
   <div class="home">
-    <Navigation @SortByNameAsc="sortByNameAscending" @SortByNameDes="sortByNameDescending" />
+    <Navigation
+      @SortByNameAsc="sortByNameAscending"
+      @SortByNameDes="sortByNameDescending"
+      @SortBySE="sortBySE"
+    />
     <h1>Episodes</h1>
     <div class="elevation" :key="componentKey">
       <SingleEpisode v-for="(episode, i) in episodes" :key="i" :episode="episode"></SingleEpisode>
@@ -11,8 +15,15 @@
 <script>
 import Navigation from "./Navigation";
 import SingleEpisode from "./SingleEpisode";
+import {
+  ByNameAscending,
+  ByNameDescending,
+  BySeason,
+  ByEpisode
+} from "../modules/functions";
 
 const axios = require("axios");
+const baseURL = "http://localhost:3000/episodes/";
 export default {
   data() {
     return {
@@ -23,7 +34,7 @@ export default {
   components: { SingleEpisode, Navigation },
   created() {
     axios
-      .get("http://localhost:3000/episodes")
+      .get(baseURL)
       .then(response => {
         this.episodes = response.data;
       })
@@ -32,34 +43,20 @@ export default {
       });
   },
   methods: {
-    ByNameAscending(a, b) {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    },
-    ByNameDescending(a, b) {
-      if (a.name > b.name) {
-        return -1;
-      }
-      if (a.name < b.name) {
-        return 1;
-      }
-      return 0;
-    },
     sortByNameAscending() {
-      this.episodes = this.episodes.sort(this.ByNameAscending);
+      this.episodes.sort(ByNameAscending);
       this.forceRerender();
     },
     sortByNameDescending() {
-      this.episodes = this.episodes.sort(this.ByNameDescending);
+      this.episodes.sort(ByNameDescending);
+      this.forceRerender();
+    },
+    sortBySE() {
+      this.episodes.sort(ByEpisode).sort(BySeason);
       this.forceRerender();
     },
     forceRerender() {
-      this.componentKey += 1;
+      this.componentKey++;
     }
   }
 };

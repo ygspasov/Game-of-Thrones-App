@@ -50,13 +50,14 @@
       <input type="text" :placeholder="episode.airtime" v-model="updatedEpisode.airtime" />
       <h3>Edit learn more</h3>
       <textarea :placeholder="episode.summary | striphtml" v-model="updatedEpisode.summary"></textarea>
-      <md-button @click.prevent="updateEpisode">Update</md-button>
+      <md-button @click="updateEpisode">Update</md-button>
     </md-card>
   </div>
 </template>
 
 <script>
 const axios = require("axios");
+const baseURL = "http://localhost:3000/episodes/";
 export default {
   props: {
     episode: { type: Object, required: true }
@@ -80,12 +81,12 @@ export default {
   methods: {
     updateEpisode: function() {
       let id = this.episode.id;
-      let url = `http://localhost:3000/episodes/${id}`;
+      let url = baseURL + id;
       axios
         .patch(url, this.updatedEpisode)
         .then(response => {
-          console.log(response.data);
           this.mutableEpisode = response.data;
+          this.showHide = !this.showHide;
         })
         .catch(error => {
           console.log(error);
@@ -93,7 +94,7 @@ export default {
     },
     deleteEpisode: function() {
       let id = this.episode.id;
-      let url = `http://localhost:3000/episodes/${id}`;
+      let url = baseURL + id;
       axios.delete(url).then(() => {
         this.mutableEpisode = null;
       });
