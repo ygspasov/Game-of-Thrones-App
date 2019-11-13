@@ -3,8 +3,8 @@
     <radial-menu
       style="margin: auto; margin-top: 300px; background-color: white"
       :itemSize="100"
-      :radius="200"
-      :angle-restriction="200"
+      :radius="150"
+      :angle-restriction="100"
     >
       <radial-menu-item
         v-for="(item, index) in items"
@@ -15,9 +15,7 @@
         <span>{{ item }}</span>
       </radial-menu-item>
     </radial-menu>
-    <div style="color: rgba(0,0,0,0.6); margin-top: 16px;">
-      {{ lastClicked }}
-    </div>
+    <div style="color: rgba(0,0,0,0.6); margin-top: 16px;">{{ lastClicked }}</div>
   </div>
 </template>
 
@@ -33,7 +31,7 @@ export default {
   },
   data() {
     return {
-      items: ["Home", "Add Episode", "hello", "world"],
+      items: ["Home", "Add Episode", "Sort By Name >", "Sort By Name <"],
       lastClicked: "Navigate!"
     };
   },
@@ -47,6 +45,12 @@ export default {
         case "Add Episode":
           router.push({ path: "/addepisode" });
           break;
+        case "Sort By Name >":
+          this.$emit("SortByNameAsc");
+          break;
+        case "Sort By Name <":
+          this.$emit("SortByNameDes");
+          break;
         default:
           break;
       }
@@ -54,3 +58,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.vue-radial-menu-wrapper {
+  margin: 150px auto auto;
+}
+</style>
