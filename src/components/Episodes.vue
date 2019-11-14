@@ -6,8 +6,13 @@
       @SortBySE="sortBySE"
     />
     <h1>Episodes</h1>
+    <Search @searchInput="handleSearch($event)"></Search>
     <div class="elevation" :key="componentKey">
-      <SingleEpisode v-for="(episode, i) in episodes" :key="i" :episode="episode"></SingleEpisode>
+      <SingleEpisode
+        v-for="(episode, i) in episodes"
+        :key="i"
+        :episode="episode"
+      ></SingleEpisode>
     </div>
   </div>
 </template>
@@ -15,6 +20,7 @@
 <script>
 import Navigation from "./Navigation";
 import SingleEpisode from "./SingleEpisode";
+import Search from "./Search";
 import {
   ByNameAscending,
   ByNameDescending,
@@ -27,22 +33,26 @@ const baseURL = "http://localhost:3000/episodes/";
 export default {
   data() {
     return {
+      search: null,
       episodes: [],
       componentKey: 0
     };
   },
-  components: { SingleEpisode, Navigation },
+  components: { SingleEpisode, Navigation, Search },
   created() {
-    axios
-      .get(baseURL)
-      .then(response => {
-        this.episodes = response.data;
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    this.axiosCall();
   },
   methods: {
+    axiosCall() {
+      axios
+        .get(baseURL)
+        .then(response => {
+          this.episodes = response.data;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    },
     sortByNameAscending() {
       this.episodes.sort(ByNameAscending);
       this.forceRerender();
@@ -53,6 +63,13 @@ export default {
     },
     sortBySE() {
       this.episodes.sort(ByEpisode).sort(BySeason);
+      this.forceRerender();
+    },
+    handleSearch(searchTerm) {
+      this.episodes = this.episodes.filter(episode =>
+        episode.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      searchTerm.length < 1 ? this.axiosCall() : "";
       this.forceRerender();
     },
     forceRerender() {
@@ -72,5 +89,9 @@ export default {
 .home .md-card-media img {
   width: 100%;
   height: 134px;
+}
+.autocomplete {
+  width: 250px;
+  margin: 0 auto;
 }
 </style>
