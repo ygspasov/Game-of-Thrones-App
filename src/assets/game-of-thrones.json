@@ -1531,18 +1531,6 @@
           "href": "http://api.tvmaze.com/episodes/1623968"
         }
       }
-    },
-    {
-      "id": 3273731,
-      "image": {
-        "medium": "https://images.pexels.com/photos/326055/pexels-photo-326055.jpeg"
-      },
-      "name": "new episode q",
-      "season": "5",
-      "number": "6",
-      "airdate": "02/12/2015",
-      "airtime": "12:31",
-      "summary": "1learn more2"
     }
   ]
 }
